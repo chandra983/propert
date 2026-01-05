@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malang Property Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e3a8a', /* Biru Gelap */
+                        secondary: '#f59e0b', /* Kuning/Oranye */
+                        accent: '#ea580c', /* Oranye Tombol */
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            padding-top: 0; 
+        }
+        .hero-bg {
+            background-image: linear-gradient(to right, rgba(30, 58, 138, 0.7), rgba(30, 58, 138, 0.2)), url('hero.png');
+            background-size: cover;
+        }
+
+        @media (max-width: 768px) {
+        .hero-bg h1{
+            text-align: center;
+        }
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Select arrow styling */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        /* Transition untuk FAQ */
+        .faq-answer {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .faq-answer.active {
+            max-height: 200px; /* Cukup tinggi untuk konten teks */
+            opacity: 1;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-btn[aria-expanded="true"] .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+    <nav class="fixed top-0 w-full z-50 text-white py-4 bg-primary/95 backdrop-blur shadow-lg transition-all duration-300">
+        <div class="container mx-auto px-6 flex justify-between items-center relative">
+            <div class="flex items-center gap-3 font-bold text-xl md:text-2xl cursor-pointer">
+                <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo" class="w-10 h-10 bg-white rounded p-1 shadow-sm object-contain">
+                <span class="leading-none">Malang <br><span class="text-secondary text-sm md:text-lg">Property Hub</span></span>
+            </div>
+
+            <div class="hidden md:flex gap-8 text-sm font-medium items-center">
+                <a href="index.html" class="text-secondary transition py-2">Beranda</a>
+                <a href="properti.html" class="hover:text-secondary transition py-2">Properti</a>
+                <a href="layanan.html" class="hover:text-secondary transition py-2">Jasa & Layanan</a>
+                <a href="blog.html" class="hover:text-secondary transition py-2">Artikel & Blog</a>
+                <a href="contact.html" class="hover:text-secondary transition py-2">Kontak</a>
+                <a href="#" class="bg-secondary hover:bg-yellow-600 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition shadow-md">
+                    Hubungi Agen
+                </a>
+            </div>
+            
+            <button id="mobile-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-primary border-t border-white/10 shadow-xl transition-all duration-300 ease-in-out">
+            <div class="flex flex-col p-6 gap-4 font-medium">
+                <a href="index.html" class="block text-secondary hover:pl-2 transition-all">Beranda</a>
+                <a href="properti.html" class="block hover:text-secondary hover:pl-2 transition-all">Properti</a>
+                <a href="layanan.html" class="block hover:text-secondary hover:pl-2 transition-all">Jasa & Layanan</a>
+                <a href="contact.html" class="block hover:text-secondary hover:pl-2 transition-all">Kontak</a>
+                <hr class="border-white/20">
+                <a href="#" class="block text-center bg-secondary hover:bg-yellow-600 text-white py-3 rounded-lg font-bold">
+                    Hubungi Agen
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative hero-bg h-[850px] flex items-center">
+        <div class="container mx-auto px-6 pt-24 grid md:grid-cols-2 gap-10 items-center h-full relative z-10">
+            <div class="text-white space-y-6">
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight drop-shadow-md">
+                    Temukan Hunian & Investasi <br>
+                    <span class="text-secondary">Properti Terbaik</span> di Malang Raya
+                </h1>
+                <p class="text-gray-100 text-lg drop-shadow-sm font-light">
+                    Rumah, Kost, Apartemen, Lahan - Harga Jelas & Lokasi Strategis
+                </p>
+
+                <div class="bg-white/95 backdrop-blur-sm p-6 rounded-2xl shadow-2xl max-w-xl mt-8 text-gray-700 border border-white/40">
+                    <div class="relative w-full mb-4">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-primary"></i>
+                        <input type="text" placeholder="Cari nama properti atau area..." class="w-full pl-11 pr-4 py-3.5 border border-gray-200 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-gray-50">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
+                        <div class="relative">
+                            <select class="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white focus:outline-none focus:border-primary text-sm font-medium text-gray-600">
+                                <option>Lokasi</option>
+                                <option>Malang Kota</option>
+                                <option>Kab. Malang</option>
+                                <option>Kota Batu</option>
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <select class="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white focus:outline-none focus:border-primary text-sm font-medium text-gray-600">
+                                <option>Tipe</option>
+                                <option>Rumah</option>
+                                <option>Apartemen</option>
+                                <option>Tanah</option>
+                                <option>Kost</option>
+                            </select>
+                        </div>
+                        <div class="relative">
+                            <select class="w-full px-4 py-3 border border-gray-200 rounded-lg bg-white focus:outline-none focus:border-primary text-sm font-medium text-gray-600">
+                                <option>Budget</option>
+                                <option>&lt; 500 Juta</option>
+                                <option>500jt - 1M</option>
+                                <option>&gt; 1 Milyar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3.5 rounded-lg shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-lg">
+                        CARI PROPERTI <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-4 bg-primary/40 backdrop-blur-md p-3 pr-6 rounded-full w-fit border border-white/20 mt-6 shadow-lg">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full border-2 border-secondary object-cover" alt="Agent">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-wider text-gray-300">Butuh Bantuan?</p>
+                        <p class="font-bold text-md text-white">Hubungi: +62 812-3456-7890</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div></div>
+        </div>
+
+    </header>
+
+    <section class="py-16 bg-white relative z-10 -mt-2">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-primary mb-1">Properti Unggulan</h2>
+                    <a href="#" class="text-gray-500 text-sm hover:text-primary flex items-center gap-1">Malang Raya <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                </div>
+                <button class="bg-primary hover:bg-blue-800 text-white px-6 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 shadow-lg hover:shadow-xl transition">
+                    Lihat Semua Properti <i class="fa-solid fa-arrow-right-long"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-xl overflow-hidden card-shadow border border-gray-100 group hover:-translate-y-2 transition duration-300 flex flex-col">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Rumah">
+                        <div class="absolute top-3 left-3 bg-primary/90 text-white text-xs font-bold px-3 py-1 rounded backdrop-blur-sm">DIJUAL</div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="font-bold text-lg text-primary mb-1 truncate">Rumah Modern Eksklusif</h3>
+                        <p class="text-gray-800 font-bold text-xl mb-2">Rp 750 Juta</p>
+                        <p class="text-gray-500 text-xs mb-4 flex items-center gap-1"><i class="fa-solid fa-location-dot text-secondary"></i> Araya, Malang | 120 m²</p>
+                        <div class="flex gap-2 mt-auto pt-2 border-t border-gray-100">
+                            <button class="flex-1 bg-blue-50 text-primary hover:bg-primary hover:text-white transition py-2 rounded-lg text-xs font-bold border border-blue-100">Detail</button>
+                            <button class="flex-1 bg-secondary text-white hover:bg-yellow-600 transition py-2 rounded-lg text-xs font-bold shadow-md">Hubungi</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl overflow-hidden card-shadow border border-gray-100 group hover:-translate-y-2 transition duration-300 flex flex-col">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600596542815-27b88e36e29f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Rumah">
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="font-bold text-lg text-primary mb-1 truncate">Rumah Strategis</h3>
+                        <p class="text-gray-800 font-bold text-xl mb-2">Rp 550 Juta</p>
+                        <p class="text-gray-500 text-xs mb-4 flex items-center gap-1"><i class="fa-solid fa-location-dot text-secondary"></i> Lowokwaru | Type 45</p>
+                        <div class="flex gap-2 mt-auto pt-2 border-t border-gray-100">
+                            <button class="flex-1 bg-blue-50 text-primary hover:bg-primary hover:text-white transition py-2 rounded-lg text-xs font-bold border border-blue-100">Detail</button>
+                            <button class="flex-1 bg-secondary text-white hover:bg-yellow-600 transition py-2 rounded-lg text-xs font-bold shadow-md">Hubungi</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl overflow-hidden card-shadow border border-gray-100 group hover:-translate-y-2 transition duration-300 flex flex-col">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Kost">
+                        <div class="absolute top-3 left-3 bg-purple-600/90 text-white text-xs font-bold px-3 py-1 rounded backdrop-blur-sm">SEWA</div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="font-bold text-lg text-primary mb-1 truncate">Kost Eksklusif Suhat</h3>
+                        <p class="text-gray-800 font-bold text-xl mb-2">Rp 950 rb <span class="text-sm font-normal text-gray-500">/ bln</span></p>
+                        <p class="text-gray-500 text-xs mb-4 flex items-center gap-1"><i class="fa-solid fa-location-dot text-secondary"></i> Dekat UB | Full Furnished</p>
+                        <div class="flex gap-2 mt-auto pt-2 border-t border-gray-100">
+                            <button class="flex-1 bg-blue-50 text-primary hover:bg-primary hover:text-white transition py-2 rounded-lg text-xs font-bold border border-blue-100">Detail</button>
+                            <button class="flex-1 bg-green-600 text-white hover:bg-green-700 transition py-2 rounded-lg text-xs font-bold shadow-md"><i class="fa-brands fa-whatsapp"></i> Chat</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl overflow-hidden card-shadow border border-gray-100 group hover:-translate-y-2 transition duration-300 flex flex-col">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Tanah">
+                        <div class="absolute top-3 left-3 bg-secondary/90 text-white text-xs font-bold px-3 py-1 rounded backdrop-blur-sm">TANAH</div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="font-bold text-lg text-primary mb-1 truncate">Tanah Kavling Siap Bangun</h3>
+                        <p class="text-gray-800 font-bold text-xl mb-2">Rp 375 Juta</p>
+                        <p class="text-gray-500 text-xs mb-4 flex items-center gap-1"><i class="fa-solid fa-location-dot text-secondary"></i> Karangploso | 200 m²</p>
+                        <div class="flex gap-2 mt-auto pt-2 border-t border-gray-100">
+                            <button class="flex-1 bg-blue-50 text-primary hover:bg-primary hover:text-white transition py-2 rounded-lg text-xs font-bold border border-blue-100">Detail</button>
+                            <button class="flex-1 bg-green-600 text-white hover:bg-green-700 transition py-2 rounded-lg text-xs font-bold shadow-md"><i class="fa-brands fa-whatsapp"></i> Chat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gray-100 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover grayscale" alt="bg">
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-3">Layanan Properti Terlengkap</h2>
+                <p class="text-gray-500 text-sm max-w-2xl mx-auto">Kami menghadirkan pengalaman jual beli dan sewa properti yang aman, transparan, dan terpercaya di Malang Raya.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl card-shadow relative hover:shadow-lg transition">
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-green-500 shadow-sm" alt="User">
+                        <div>
+                            <h4 class="font-bold text-primary text-lg">Omar</h4>
+                            <p class="text-xs text-gray-500 font-medium">Investasi Properti</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm italic mb-4">"Proses pembelian cepat & transparan, adminnya sangat responsif."</p>
+                    <div class="flex text-yellow-400 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl card-shadow relative hover:shadow-lg transition">
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://randomuser.me/api/portraits/men/33.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-secondary shadow-sm" alt="User">
+                        <div>
+                            <h4 class="font-bold text-primary text-lg">Pandu</h4>
+                            <p class="text-xs text-gray-500 font-medium">Mahasiswa UB</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm italic mb-4">"Sewa apartemen jadi gampang banget, data lengkap dan sesuai foto."</p>
+                     <div class="flex text-yellow-400 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl card-shadow relative hover:shadow-lg transition">
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://randomuser.me/api/portraits/men/78.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-blue-500 shadow-sm" alt="User">
+                        <div>
+                            <h4 class="font-bold text-primary text-lg">Messi</h4>
+                            <p class="text-xs text-gray-500 font-medium">Wirausaha</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm italic mb-4">"Tim profesional membantu saya mencarikan ruko lokasi strategis."</p>
+                     <div class="flex text-yellow-400 text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white relative">
+        <div class="absolute bottom-0 left-0 w-full h-64 overflow-hidden pointer-events-none opacity-60">
+           <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover object-bottom" style="mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)); -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));" alt="Nature">
+        </div>
+
+        <div class="container mx-auto px-6 max-w-3xl relative z-10">
+            <h2 class="text-3xl font-bold text-primary text-center mb-10">Pertanyaan yang Sering Diajukan</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-white/80 backdrop-blur border border-blue-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none text-primary font-semibold hover:bg-blue-50 transition" onclick="toggleFaq(this)">
+                        <span>Bagaimana cara mengajukan KPR?</span>
+                        <div class="bg-blue-100 rounded-full p-1 w-6 h-6 flex items-center justify-center">
+                            <i class="fa-solid fa-chevron-down text-xs text-primary faq-icon"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 bg-white text-gray-600 text-sm leading-relaxed border-t border-gray-100">
+                        <div class="py-4">
+                            Untuk mengajukan KPR, Anda perlu menyiapkan dokumen seperti KTP, NPWP, Slip Gaji 3 bulan terakhir, dan Rekening Koran. Tim kami akan membantu Anda menghubungkan dengan bank rekanan kami untuk proses yang lebih cepat.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur border border-blue-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none text-primary font-semibold hover:bg-blue-50 transition" onclick="toggleFaq(this)">
+                        <span>Apa saja biaya tambahan saat membeli rumah?</span>
+                         <div class="bg-blue-100 rounded-full p-1 w-6 h-6 flex items-center justify-center">
+                            <i class="fa-solid fa-chevron-down text-xs text-primary faq-icon"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 bg-white text-gray-600 text-sm leading-relaxed border-t border-gray-100">
+                         <div class="py-4">
+                            Selain harga rumah, biaya tambahan biasanya mencakup BPHTB (5%), Biaya Notaris/PPAT, Biaya Balik Nama, dan Biaya KPR (jika kredit). Total estimasi biaya tambahan sekitar 5-10% dari harga properti.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur border border-blue-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none text-primary font-semibold hover:bg-blue-50 transition" onclick="toggleFaq(this)">
+                        <span>Bagaimana mengecek legalitas sertifikat rumah?</span>
+                         <div class="bg-blue-100 rounded-full p-1 w-6 h-6 flex items-center justify-center">
+                            <i class="fa-solid fa-chevron-down text-xs text-primary faq-icon"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 bg-white text-gray-600 text-sm leading-relaxed border-t border-gray-100">
+                         <div class="py-4">
+                            Pengecekan sertifikat (SHM/HGB) dapat dilakukan di kantor BPN setempat. Kami menjamin semua properti yang terdaftar di Malang Property Hub telah melalui proses verifikasi legalitas dasar yang aman.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-primary text-white pt-16 pb-8 border-t-4 border-secondary relative z-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-1">
+                     <div class="flex items-center gap-2 font-bold text-2xl mb-4">
+                        <div class="bg-secondary p-1.5 rounded shadow-sm">
+                            <i class="fa-solid fa-building text-white text-sm"></i>
+                        </div>
+                        Malang <span class="text-secondary">Property</span>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                        Platform properti terpercaya di Malang Raya. Temukan hunian impian dan investasi masa depan Anda bersama kami.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-secondary">Navigasi</h3>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Beranda</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Dijual</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Disewa</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Titip Jual</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-secondary">Area Populer</h3>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Lowokwaru</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Soekarno Hatta</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Araya</a></li>
+                        <li><a href="#" class="hover:text-white hover:pl-2 transition-all">Kota Batu</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-secondary">Hubungi Kami</h3>
+                    <ul class="space-y-4 text-gray-300 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-secondary"></i>
+                            <span>Jl. Ijen Besar No. 45, Klojen, Kota Malang, Jawa Timur</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-secondary"></i>
+                            <span>+62 812-3456-7890</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-secondary"></i>
+                            <span>info@malangproperty.id</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+                <p>&copy; 2026 Malang Property Hub. All Rights Reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(button) {
+            // 1. Cari elemen jawaban (sibling setelah tombol)
+            const answer = button.nextElementSibling;
+            
+            // 2. Toggle class 'active' untuk animasi buka/tutup
+            answer.classList.toggle('active');
+            
+            // 3. Ubah atribut aria-expanded untuk rotasi icon (via CSS)
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !isExpanded);
+            
+            // 4. (Opsional) Tutup FAQ lain jika ingin mode accordion ketat
+            // document.querySelectorAll('.faq-answer').forEach(item => {
+            //     if (item !== answer) item.classList.remove('active');
+            // });
+            // document.querySelectorAll('.faq-btn').forEach(btn => {
+            //     if (btn !== button) btn.setAttribute('aria-expanded', 'false');
+            // });
+        }
+    </script>
+    <script>
+        // 1. MOBILE MENU TOGGLE
+        const mobileBtn = document.getElementById('mobile-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. SEARCH FUNCTIONALITY
+        const searchInput = document.getElementById('searchInput');
+        const serviceCards = document.querySelectorAll('.service-card');
+        const noResults = document.getElementById('noResults');
+        const resetBtn = document.getElementById('resetBtn');
+
+        function filterServices() {
+            const query = searchInput.value.toLowerCase();
+            let hasResults = false;
+
+            serviceCards.forEach(card => {
+                const title = card.querySelector('.service-title').innerText.toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = "flex"; // Gunakan flex agar layout card tetap benar
+                    hasResults = true;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            // Tampilkan pesan jika tidak ada hasil
+            if (!hasResults) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            // Tampilkan tombol reset jika ada input
+            if(query.length > 0) {
+                resetBtn.classList.remove('hidden');
+            } else {
+                resetBtn.classList.add('hidden');
+            }
+        }
+
+        function resetSearch() {
+            searchInput.value = '';
+            filterServices();
+        }
+
+        // Jalankan pencarian saat mengetik (real-time) atau tekan Enter
+        searchInput.addEventListener('keyup', filterServices);
+    </script>
+</body>
+</html>
