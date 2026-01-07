@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan - Malang Property Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e40af', 
+                        secondary: '#f59e0b', 
+                        darkblue: '#1e3a8a',
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Input Search Focus */
+        .search-input:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                max-height: 220px;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700 flex flex-col min-h-screen bg-slate-50">
+
+    <nav class="fixed top-0 w-full z-50 text-white py-4 bg-primary/95 backdrop-blur shadow-lg transition-all duration-300">
+        <div class="container mx-auto px-6 flex justify-between items-center relative">
+            <div class="flex items-center gap-3 font-bold text-xl md:text-2xl cursor-pointer">
+                <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo" class="w-10 h-10 bg-white rounded p-1 shadow-sm object-contain">
+                <span class="leading-none"><a href="index.html">Malang <br><span class="text-secondary text-sm md:text-lg">Property Hub</span></a></span>
+            </div>
+
+            <div class="hidden md:flex gap-8 text-sm font-medium items-center">
+                <a href="index.html" class="hover:text-secondary transition py-2">Beranda</a>
+                <a href="properti.html" class="hover:text-secondary transition py-2">Properti</a>
+                <a href="layanan.html" class="text-secondary transition py-2">Layanan</a>
+                <a href="blog.html" class="hover:text-secondary transition py-2">Artikel & Blog</a>
+                <a href="contact.html" class="hover:text-secondary transition py-2">Kontak</a>
+                <a href="#" class="bg-secondary hover:bg-yellow-600 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition shadow-md">
+                    Hubungi Agen
+                </a>
+            </div>
+            
+            <button id="mobile-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-primary border-t border-white/10 shadow-xl transition-all duration-300 ease-in-out">
+            <div class="flex flex-col p-6 gap-4 font-medium">
+                <a href="index.html" class="block hover:text-secondary hover:pl-2 transition-all">Beranda</a>
+                <a href="properti.html" class="block hover:text-secondary hover:pl-2 transition-all">Properti</a>
+                <a href="layanan.html" class="block text-secondary hover:pl-2 transition-all">Layanan</a>
+                <a href="blog.html" class="block hover:text-secondary">Artikel</a>
+                <a href="contact.html" class="block hover:text-secondary hover:pl-2 transition-all">Kontak</a>
+                <hr class="border-white/20">
+                <a href="#" class="block text-center bg-secondary hover:bg-yellow-600 text-white py-3 rounded-lg font-bold">
+                    Hubungi Agen
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header relative h-[350px] mt-16 flex items-center justify-center text-center bg-fixed bg-cover bg-center" style="background-image: linear-gradient(to right, rgba(30, 58, 138, 0.7), rgba(30, 58, 138, 0.4)), url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=2000');">
+        <div class="absolute inset-0 bg-[#1f3c9da]/80"></div>
+        
+        <div class="relative z-10 container mx-auto px-6 text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Jasa & Layanan</h1>
+            <p class="text-gray-200 text-sm md:text-base max-w-3xl mx-auto leading-relaxed mb-6 font-light">
+                Solusi Tepat untuk Kebutuhan Properti Anda - Jasa Arsitek, Renovasi, Konstruksi & Legalitas.
+            </p>
+            
+            <div class="flex items-center justify-center gap-2 text-sm font-medium">
+                <a href="#" class="text-secondary hover:text-yellow-400">Beranda</a>
+                <span class="text-gray-400">/</span>
+                <span class="text-white">Layanan</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="container mx-auto px-6 -mt-10 relative z-20 mb-20" style="margin-top: 50px;">
+        
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-darkblue">Layanan Kami</h2>
+            <button onclick="resetSearch()" class="text-sm text-blue-600 underline hidden" id="resetBtn">Tampilkan Semua</button>
+        </div>
+
+        <div class="bg-white p-2 pl-4 rounded-lg shadow-2xl flex items-center gap-2 max-w-xl h-14 md:h-16">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            <input type="text" id="searchInput" placeholder="Cari Jasa (misal: Arsitek)..." class="flex-grow h-full text-gray-700 search-input placeholder-gray-500 text-sm">
+            <button onclick="filterServices()" class="bg-secondary hover:bg-yellow-600 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-md transition h-full text-xs md:text-sm uppercase tracking-wider">
+                Cari
+            </button>
+        </div><br>
+        
+        <div id="serviceContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div class="service-card bg-white rounded-xl shadow-soft overflow-hidden hover:-translate-y-2 transition duration-300 flex flex-col group">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Arsitek">
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="service-title font-bold text-lg text-darkblue leading-tight mb-2">Jasa Arsitek <br>& Desain Bangunan</h3>
+                    <div class="flex items-center gap-4 text-xs text-gray-400 mb-4 mt-auto">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-map-pin"></i> Malang Raya</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-auto">
+                        <a href="detail-layanan.html" class="bg-darkblue hover:bg-blue-900 text-white py-2 rounded text-xs font-semibold transition flex items-center justify-center">Lihat Detail</a>
+                        <a href="https://wa.me/6281234567890?text=Halo admin, saya tertarik dengan Jasa Arsitek & Desain Bangunan" target="_blank" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded text-xs font-semibold transition flex items-center justify-center gap-1"><i class="fa-solid fa-phone text-[10px]"></i> Hubungi</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card bg-white rounded-xl shadow-soft overflow-hidden hover:-translate-y-2 transition duration-300 flex flex-col group">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1649083048337-4aeb6dda80bb?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Renovasi">
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="service-title font-bold text-lg text-darkblue leading-tight mb-2">Desain Rumah <br>& Renovasi</h3>
+                    <div class="flex items-center gap-4 text-xs text-gray-400 mb-4 mt-auto">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-map-pin"></i> Malang Raya</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-auto">
+                        <a href="detail-layanan.html" class="bg-darkblue hover:bg-blue-900 text-white py-2 rounded text-xs font-semibold transition flex items-center justify-center">Lihat Detail</a>
+                        <a href="https://wa.me/6281234567890?text=Halo admin, saya tertarik dengan Jasa Renovasi Rumah" target="_blank" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded text-xs font-semibold transition flex items-center justify-center gap-1"><i class="fa-solid fa-phone text-[10px]"></i> Hubungi</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card bg-white rounded-xl shadow-soft overflow-hidden hover:-translate-y-2 transition duration-300 flex flex-col group">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Konstruksi">
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="service-title font-bold text-lg text-darkblue leading-tight mb-2">Jasa Konstruksi <br>& Bangun Rumah</h3>
+                    <div class="flex items-center gap-4 text-xs text-gray-400 mb-4 mt-auto">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-map-pin"></i> Malang Raya</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-auto">
+                        <a href="detail-layanan.html" class="bg-darkblue hover:bg-blue-900 text-white py-2 rounded text-xs font-semibold transition flex items-center justify-center">Lihat Detail</a>
+                        <a href="https://wa.me/6281234567890?text=Halo admin, saya tertarik dengan Jasa Konstruksi Bangun Rumah" target="_blank" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded text-xs font-semibold transition flex justify-center items-center gap-1"><i class="fa-solid fa-phone text-[10px]"></i> Hubungi</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-card bg-white rounded-xl shadow-soft overflow-hidden hover:-translate-y-2 transition duration-300 flex flex-col group">
+                <div class="h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Legal">
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="service-title font-bold text-lg text-darkblue leading-tight mb-2">Notaris, KPR <br>& Sertifikasi Legal</h3>
+                    <div class="flex items-center gap-4 text-xs text-gray-400 mb-4 mt-auto">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-map-pin"></i> Malang Raya</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-auto">
+                        <a href="detail-layanan.html" class="bg-darkblue hover:bg-blue-900 text-white py-2 rounded text-xs font-semibold transition flex items-center justify-center">Lihat Detail</a>
+                        <a href="https://wa.me/6281234567890?text=Halo admin, saya butuh bantuan Legalitas / Notaris" target="_blank" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded text-xs font-semibold transition flex items-center justify-center">WA Pemilik</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <div id="noResults" class="hidden text-center py-10">
+            <i class="fa-regular fa-face-frown text-4xl text-gray-300 mb-2"></i>
+            <p class="text-gray-500">Layanan tidak ditemukan.</p>
+        </div>
+    </section>
+
+    <section class="bg-blue-50/50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-darkblue mb-10">Kenapa Pilih Kami?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="flex gap-4 p-4 rounded-lg hover:bg-white hover:shadow-sm transition">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-green-600 text-xl flex-shrink-0">
+                        <i class="fa-solid fa-people-group"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-darkblue text-lg">Tim Berpengalaman</h4>
+                        <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                            Kami memiliki tim ahli profesional dengan pengalaman lebih dari 10 tahun di bidang properti dan konstruksi.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 p-4 rounded-lg hover:bg-white hover:shadow-sm transition">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-blue-600 text-xl flex-shrink-0">
+                        <i class="fa-solid fa-city"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-darkblue text-lg">Terlengkap di Kota Malang</h4>
+                        <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                            Menyediakan segala jenis layanan properti dari hulu ke hilir di satu tempat terintegrasi.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 p-4 rounded-lg hover:bg-white hover:shadow-sm transition">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-secondary text-xl flex-shrink-0">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-darkblue text-lg">Pelayanan Transparan</h4>
+                        <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                            Seluruh biaya dan proses legalitas dijelaskan di awal tanpa ada biaya tersembunyi.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-16 h-16 rounded-full object-cover mb-3" alt="Ragil">
+                    <h5 class="font-bold text-darkblue">Ragil</h5>
+                    <p class="text-[10px] text-gray-400 mb-2">Renovasi Rumah</p>
+                    <div class="text-secondary text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                 <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-16 h-16 rounded-full object-cover mb-3" alt="Lely">
+                    <h5 class="font-bold text-darkblue">Lely & Yoga</h5>
+                    <p class="text-[10px] text-gray-400 mb-2">Jasa Desain</p>
+                    <div class="text-secondary text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                 <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                    <img src="https://randomuser.me/api/portraits/men/85.jpg" class="w-16 h-16 rounded-full object-cover mb-3" alt="Pandu">
+                    <h5 class="font-bold text-darkblue">Pandu</h5>
+                    <p class="text-[10px] text-gray-400 mb-2">Legalitas</p>
+                    <div class="text-secondary text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                 <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                    <img src="https://randomuser.me/api/portraits/men/51.jpg" class="w-16 h-16 rounded-full object-cover mb-3" alt="Zein">
+                    <h5 class="font-bold text-darkblue">Zein</h5>
+                    <p class="text-[10px] text-gray-400 mb-2">Kontraktor</p>
+                    <div class="text-secondary text-xs">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-6 mb-10 mt-10">
+        <div class="bg-gradient-to-r from-blue-900 to-blue-700 rounded-2xl p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between">
+            <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+
+            <div class="relative z-10 text-white md:w-2/3">
+                <h2 class="text-2xl md:text-3xl font-bold mb-6">Butuh Bantuan Cepat untuk Jasa Properti di Malang?</h2>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <a href="contact.html" class="bg-secondary hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded shadow-lg transition text-center">
+                        Hubungi Kami Sekarang
+                    </a>
+                    <div class="flex items-center gap-2 bg-white text-darkblue font-bold py-3 px-6 rounded shadow-lg">
+                        <span class="text-lg">+62 812-3456-7890</span>
+                        <i class="fa-brands fa-whatsapp text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-10 mt-8 md:mt-0 md:absolute md:bottom-0 md:right-10 w-64 md:w-80 hidden md:block">
+                <img src="https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-indian-man-png-image_10149659.png" class="w-full h-auto drop-shadow-2xl" alt="Support Agent">
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-primary text-white pt-6 pb-6 border-t border-white/10 mt-auto">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs md:text-sm">
+            <div class="flex items-center gap-3 mb-4 md:mb-0">
+                <div class="w-8 h-8 bg-secondary rounded flex items-center justify-center">
+                    <i class="fa-solid fa-city text-white text-xs"></i>
+                </div>
+                <div>
+                    <span class="font-bold block">Malang Property Hub</span>
+                    <span class="text-gray-300 text-[10px]">Jasa Arsitek, Renovasi & Legal</span>
+                </div>
+            </div>
+
+            <div class="flex gap-6 text-gray-300">
+                <a href="#" class="hover:text-white">Beranda</a>
+                <a href="#" class="hover:text-white">Syarat & Ketentuan</a>
+                <a href="#" class="hover:text-white">Kebijakan Privasi</a>
+            </div>
+
+            <div class="flex gap-4 mt-4 md:mt-0 text-gray-300">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <span>+62 812-3456-7890</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. MOBILE MENU TOGGLE
+        const mobileBtn = document.getElementById('mobile-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 2. SEARCH FUNCTIONALITY
+        const searchInput = document.getElementById('searchInput');
+        const serviceCards = document.querySelectorAll('.service-card');
+        const noResults = document.getElementById('noResults');
+        const resetBtn = document.getElementById('resetBtn');
+
+        function filterServices() {
+            const query = searchInput.value.toLowerCase();
+            let hasResults = false;
+
+            serviceCards.forEach(card => {
+                const title = card.querySelector('.service-title').innerText.toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = "flex"; // Gunakan flex agar layout card tetap benar
+                    hasResults = true;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            // Tampilkan pesan jika tidak ada hasil
+            if (!hasResults) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            // Tampilkan tombol reset jika ada input
+            if(query.length > 0) {
+                resetBtn.classList.remove('hidden');
+            } else {
+                resetBtn.classList.add('hidden');
+            }
+        }
+
+        function resetSearch() {
+            searchInput.value = '';
+            filterServices();
+        }
+
+        // Jalankan pencarian saat mengetik (real-time) atau tekan Enter
+        searchInput.addEventListener('keyup', filterServices);
+    </script>
+
+</body>
+</html>

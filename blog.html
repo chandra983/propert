@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel & Panduan - Malang Property Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#f59e0b',
+                        accent: '#ea580c',
+                        wa: '#25D366'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* UPDATE: Background Image Header */
+        .blog-hero-bg {
+            /* Foto Pegunungan Malang dengan Overlay Biru Transparan */
+            background: linear-gradient(to bottom, rgba(30, 58, 138, 0.7), rgba(255, 255, 255, 1)), 
+                        url('https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center 30%; /* Mengatur posisi agar gunung terlihat pas */
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <nav class="fixed top-0 w-full z-50 text-white py-4 bg-primary/95 backdrop-blur shadow-lg transition-all duration-300">
+        <div class="container mx-auto px-6 flex justify-between items-center relative">
+            <div class="flex items-center gap-3 font-bold text-xl md:text-2xl cursor-pointer">
+                <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo" class="w-10 h-10 bg-white rounded p-1 shadow-sm object-contain">
+                <span class="leading-none">Malang <br><span class="text-secondary text-sm md:text-lg">Property Hub</span></span>
+            </div>
+
+            <div class="hidden md:flex gap-8 text-sm font-medium items-center">
+                <a href="index.html" class="hover:text-secondary transition py-2">Beranda</a>
+                <a href="properti.html" class="hover:text-secondary transition py-2">Properti</a>
+                <a href="layanan.html" class="hover:text-secondary transition py-2">Layanan</a>
+                <a href="blog.html" class="text-secondary transition py-2">Artikel & Blog</a>
+                <a href="contact.html" class="hover:text-secondary transition py-2">Kontak</a>
+                <a href="#" class="bg-secondary hover:bg-yellow-600 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition shadow-md">
+                    Hubungi Agen
+                </a>
+            </div>
+            
+            <button id="mobile-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-primary border-t border-white/10 shadow-xl transition-all duration-300 ease-in-out">
+            <div class="flex flex-col p-6 gap-4 font-medium">
+                <a href="index.html" class="block hover:text-secondary hover:pl-2 transition-all">Beranda</a>
+                <a href="properti.html" class="block hover:text-secondary hover:pl-2 transition-all">Properti</a>
+                <a href="layanan.html" class="block hover:text-secondary hover:pl-2 transition-all">Layanan</a>
+                <a href="blog.html" class="block text-secondary">Artikel</a>
+                <a href="contact.html" class="block hover:text-secondary hover:pl-2 transition-all">Kontak</a>
+                <hr class="border-white/20">
+                <a href="#" class="block text-center bg-secondary hover:bg-yellow-600 text-white py-3 rounded-lg font-bold">
+                    Hubungi Agen
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative pt-32 pb-24 blog-hero-bg min-h-[480px] flex items-center justify-center text-center px-4">
+        <div class="container mx-auto relative z-10 max-w-4xl">
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                Artikel & Panduan Properti <br> Terbaik <span class="text-secondary">di Malang</span>
+            </h1>
+            <p class="text-gray-100 mb-10 text-sm md:text-base opacity-95 drop-shadow-md font-medium">Temukan tips, berita terkini, dan panduan investasi properti di Malang Raya</p>
+
+            <div class="bg-white p-2 rounded-full shadow-2xl max-w-xl mx-auto flex items-center transform hover:scale-[1.01] transition duration-300 ring-4 ring-white/20">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 ml-5 mr-3"></i>
+                <input type="text" id="blogSearchInput" placeholder="Cari artikel..." class="w-full py-3 px-2 text-gray-700 focus:outline-none rounded-l-full bg-transparent placeholder-gray-400">
+                <button onclick="filterArticles()" class="bg-secondary hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full transition shadow-md">
+                    Cari
+                </button>
+            </div>
+
+            <div class="mt-8 text-xs text-white/80 font-medium">
+                <a href="index.html" class="hover:text-white underline decoration-transparent hover:decoration-white transition">Beranda</a> 
+                <span class="mx-2">•</span> 
+                <span class="text-secondary font-bold">Artikel & Panduan Properti</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-12 bg-white flex-grow">
+        <div class="container mx-auto px-6 max-w-7xl">
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                
+                <div class="lg:col-span-2 space-y-8" id="articleContainer">
+                    
+                    <article class="blog-item group" data-category="tips">
+                        <div class="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+                            <div class="md:w-5/12 relative overflow-hidden h-64 md:h-auto">
+                                <a href="blog-detail.html" class="block w-full h-full">
+                                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Featured" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </a>
+                            </div>
+                            <div class="md:w-7/12 p-6 md:p-8 flex flex-col justify-center">
+                                <a href="blog-detail.html">
+                                    <h2 class="article-title text-2xl font-bold text-primary mb-3 leading-tight group-hover:text-secondary transition">10 Tips Membeli Rumah Pertama di Malang untuk Pemula</h2>
+                                </a>
+                                <p class="text-gray-500 text-sm mb-6 leading-relaxed line-clamp-3">
+                                    Panduan lengkap dan praktis bagi Anda yang ingin membeli rumah pertama di area Malang. Hindari kesalahan umum agar investasi aman.
+                                </p>
+                                <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-gray-400 mt-auto">
+                                    <span class="bg-blue-50 text-primary px-2 py-1 rounded"><i class="fa-solid fa-tag mr-1"></i> Tips Membeli Rumah</span>
+                                    <span class="flex items-center gap-1"><i class="fa-regular fa-user"></i> Budi Santoso</span>
+                                    <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i> 12 Apr 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <article class="blog-item group h-full" data-category="renovasi">
+                            <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                                <div class="relative h-48 overflow-hidden">
+                                     <a href="blog-detail.html" class="block w-full h-full">
+                                        <img src="https://images.unsplash.com/photo-1581578731117-104f2a863a86?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Renovasi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                    </a>
+                                </div>
+                                <div class="p-5 flex flex-col flex-grow">
+                                     <a href="blog-detail.html">
+                                        <h3 class="article-title font-bold text-lg text-primary mb-2 leading-snug group-hover:text-secondary transition">Panduan Renovasi Rumah dengan Budget Terbatas</h3>
+                                    </a>
+                                    <div class="mt-auto pt-4 flex justify-between items-center text-xs text-gray-400 border-t border-gray-100">
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-user"></i> Budi Santoso</span>
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i> 10 Apr 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="blog-item group h-full" data-category="investasi">
+                            <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                                <div class="relative h-48 overflow-hidden">
+                                    <a href="blog-detail.html" class="block w-full h-full">
+                                        <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Investasi" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                    </a>
+                                </div>
+                                <div class="p-5 flex flex-col flex-grow">
+                                    <a href="blog-detail.html">
+                                        <h3 class="article-title font-bold text-lg text-primary mb-2 leading-snug group-hover:text-secondary transition">5 Tips Investasi Properti di Malang Raya</h3>
+                                    </a>
+                                    <div class="mt-auto pt-4 flex justify-between items-center text-xs text-gray-400 border-t border-gray-100">
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-user"></i> Budi Santoso</span>
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i> 08 Apr 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="blog-item group h-full" data-category="renovasi">
+                            <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                                <div class="relative h-48 overflow-hidden">
+                                    <a href="blog-detail.html" class="block w-full h-full">
+                                        <img src="https://images.unsplash.com/photo-1484154218962-a1c002085d2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Kamar" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                    </a>
+                                </div>
+                                <div class="p-5 flex flex-col flex-grow">
+                                    <a href="blog-detail.html">
+                                        <h3 class="article-title font-bold text-lg text-primary mb-2 leading-snug group-hover:text-secondary transition">Langkah Menambah Kamar Tidur Tanpa Pindah</h3>
+                                    </a>
+                                    <div class="mt-auto pt-4 flex justify-between items-center text-xs text-gray-400 border-t border-gray-100">
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-user"></i> Budi Santoso</span>
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i> 05 Apr 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="blog-item group h-full" data-category="berita">
+                            <div class="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col h-full">
+                                <div class="relative h-48 overflow-hidden">
+                                    <a href="blog-detail.html" class="block w-full h-full">
+                                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Kawasan" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                    </a>
+                                </div>
+                                <div class="p-5 flex flex-col flex-grow">
+                                    <a href="blog-detail.html">
+                                        <h3 class="article-title font-bold text-lg text-primary mb-2 leading-snug group-hover:text-secondary transition">Prospek Kawasan Perumahan Baru di Batu</h3>
+                                    </a>
+                                    <div class="mt-auto pt-4 flex justify-between items-center text-xs text-gray-400 border-t border-gray-100">
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-user"></i> Budi Santoso</span>
+                                        <span class="flex items-center gap-1"><i class="fa-regular fa-calendar"></i> 01 Apr 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div id="noResults" class="hidden text-center py-10">
+                        <div class="bg-gray-100 rounded-lg p-8 inline-block border border-gray-200">
+                            <i class="fa-regular fa-face-frown text-4xl text-gray-400 mb-3"></i>
+                            <p class="text-gray-600 font-medium">Tidak ada artikel yang sesuai.</p>
+                            <button onclick="resetAll()" class="mt-3 text-secondary text-sm font-bold hover:underline">Tampilkan Semua</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <aside class="space-y-8 sticky top-24 h-fit">
+                    
+                    <div class="bg-blue-50/50 rounded-xl p-6 border border-blue-100 shadow-sm">
+                        <h3 class="font-bold text-lg text-primary mb-5 border-l-4 border-secondary pl-3">Artikel Terpopuler</h3>
+                        <ul class="space-y-5">
+                            <li class="flex gap-4 items-start group cursor-pointer">
+                                <span class="flex-shrink-0 w-8 h-8 rounded bg-secondary text-white font-bold flex items-center justify-center text-sm shadow-sm">1</span>
+                                <div>
+                                    <a href="blog-detail.html" class="font-semibold text-sm text-gray-700 group-hover:text-primary transition leading-snug block mb-1">10 Tips Membeli Rumah Pertama di Malang</a>
+                                    <span class="text-[10px] text-gray-400"><i class="fa-regular fa-user mr-1"></i> Budi Santoso</span>
+                                </div>
+                            </li>
+                            <li class="flex gap-4 items-start group cursor-pointer">
+                                <span class="flex-shrink-0 w-8 h-8 rounded bg-white border border-gray-200 text-gray-500 font-bold flex items-center justify-center text-sm">2</span>
+                                <div>
+                                    <a href="blog-detail.html" class="font-semibold text-sm text-gray-700 group-hover:text-primary transition leading-snug block mb-1">5 Tips Investasi Properti di Malang Raya</a>
+                                    <span class="text-[10px] text-gray-400"><i class="fa-regular fa-user mr-1"></i> Budi Santoso</span>
+                                </div>
+                            </li>
+                            <li class="flex gap-4 items-start group cursor-pointer">
+                                <span class="flex-shrink-0 w-8 h-8 rounded bg-white border border-gray-200 text-gray-500 font-bold flex items-center justify-center text-sm">3</span>
+                                <div>
+                                    <a href="blog-detail.html" class="font-semibold text-sm text-gray-700 group-hover:text-primary transition leading-snug block mb-1">Langkah Menambah Kamar Tidur Tanpa Pindah</a>
+                                    <span class="text-[10px] text-gray-400"><i class="fa-regular fa-user mr-1"></i> Budi Santoso</span>
+                                </div>
+                            </li>
+                            <li class="flex gap-4 items-start group cursor-pointer">
+                                <span class="flex-shrink-0 w-8 h-8 rounded bg-white border border-gray-200 text-gray-500 font-bold flex items-center justify-center text-sm">4</span>
+                                <div>
+                                    <a href="blog-detail.html" class="font-semibold text-sm text-gray-700 group-hover:text-primary transition leading-snug block mb-1">Cara Menambah Kamar Tidur Tanpa Pindah</a>
+                                    <span class="text-[10px] text-gray-400"><i class="fa-regular fa-user mr-1"></i> Budi Aja</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+                        <h3 class="font-bold text-lg text-primary mb-4 flex items-center gap-2"><i class="fa-solid fa-tags text-secondary"></i> Tag Populer</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" onclick="filterByTag('tips'); return false;" class="text-xs font-medium bg-gray-100 text-gray-600 px-3 py-1.5 rounded hover:bg-primary hover:text-white transition cursor-pointer">Tips Membeli Rumah</a>
+                            <a href="#" onclick="filterByTag('investasi'); return false;" class="text-xs font-medium bg-gray-100 text-gray-600 px-3 py-1.5 rounded hover:bg-primary hover:text-white transition cursor-pointer">Investasi Properti</a>
+                            <a href="#" onclick="filterByTag('all'); return false;" class="text-xs font-medium bg-gray-100 text-gray-600 px-3 py-1.5 rounded hover:bg-primary hover:text-white transition">Malang Raya</a>
+                            <a href="#" onclick="filterByTag('berita'); return false;" class="text-xs font-medium bg-gray-100 text-gray-600 px-3 py-1.5 rounded hover:bg-primary hover:text-white transition">Tren Properti</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl p-6 border border-blue-100 shadow-md text-center">
+                        <div class="flex items-center gap-4 text-left mb-4">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-md">
+                            <div>
+                                <h4 class="font-bold text-primary text-lg leading-tight">Budi Santoso</h4>
+                                <p class="text-xs text-gray-500">Konsultan Properti</p>
+                            </div>
+                        </div>
+                        <a href="contact.html" class="block w-full bg-wa hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-xl transition mb-3 flex items-center justify-center gap-2">
+                            Hubungi Kami Sekarang
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-2 pt-8 border-t border-gray-200 mt-12">
+            <span class="w-8 h-8 flex items-center justify-center rounded bg-gray-100 text-gray-400 cursor-not-allowed">
+                <i class="fa-solid fa-chevron-left text-xs"></i>
+            </span>
+
+            <span class="w-8 h-8 flex items-center justify-center rounded bg-secondary text-white font-bold shadow-sm text-sm cursor-default">
+                1
+            </span>
+
+            <a href="blog2.html" class="w-8 h-8 flex items-center justify-center rounded bg-white text-gray-600 font-medium hover:bg-gray-100 shadow-sm text-sm transition-colors">
+                2
+            </a>
+
+            <a href="blog2.html" class="w-8 h-8 flex items-center justify-center rounded bg-white text-gray-600 shadow-sm hover:bg-gray-100 transition-colors">
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-primary text-white pt-16 pb-8 border-t-4 border-secondary relative z-20 mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-1">
+                     <div class="flex items-center gap-2 font-bold text-2xl mb-4">
+                        <div class="bg-secondary p-1.5 rounded shadow-sm">
+                            <i class="fa-solid fa-building text-white text-sm"></i>
+                        </div>
+                        Malang <span class="text-secondary">Property</span>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                        Platform properti terpercaya di Malang Raya.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-secondary">Navigasi</h3>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><a href="index.html" class="hover:text-white">Beranda</a></li>
+                        <li><a href="properti.html" class="hover:text-white">Properti</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-4 text-secondary">Hubungi</h3>
+                    <ul class="space-y-2 text-gray-300 text-sm">
+                        <li><i class="fa-solid fa-phone text-secondary mr-2"></i> +62 812-3456-7890</li>
+                        <li><i class="fa-solid fa-envelope text-secondary mr-2"></i> info@malangproperty.id</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center text-xs text-gray-400">
+                <p>&copy; 2026 Malang Property Hub. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. MOBILE MENU
+        const mobileBtn = document.getElementById('mobile-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // 2. LOGIKA TAB & SEARCH YANG DIGABUNG
+        const searchInput = document.getElementById('blogSearchInput');
+        const articles = document.querySelectorAll('.blog-item');
+        const tabs = document.querySelectorAll('.filter-btn');
+        const noResults = document.getElementById('noResults');
+        const countSpan = document.getElementById('articleCount');
+
+        // Fungsi Filter Utama
+        function filterContent(mode, value) {
+            let visibleCount = 0;
+
+            // Reset Tab Styles jika search (opsional, biar user tau dia sedang search all)
+            if(mode === 'search') {
+                tabs.forEach(t => {
+                    t.classList.remove('active', 'text-primary', 'border-primary');
+                    t.classList.add('text-gray-500', 'border-transparent');
+                    if(t.dataset.filter === 'all') { // Highlight tab 'Semua' saat searching
+                         t.classList.add('active', 'text-primary', 'border-primary');
+                         t.classList.remove('text-gray-500', 'border-transparent');
+                    }
+                });
+            }
+
+            articles.forEach(article => {
+                let shouldShow = false;
+
+                if (mode === 'category') {
+                    const category = article.getAttribute('data-category');
+                    if (value === 'all' || category === value) {
+                        shouldShow = true;
+                    }
+                    // Bersihkan search bar jika klik tab
+                    searchInput.value = '';
+                } 
+                else if (mode === 'search') {
+                    const title = article.querySelector('.article-title').innerText.toLowerCase();
+                    if (title.includes(value.toLowerCase())) {
+                        shouldShow = true;
+                    }
+                }
+
+                // Terapkan Show/Hide menggunakan Tailwind 'hidden'
+                if (shouldShow) {
+                    article.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    article.classList.add('hidden');
+                }
+            });
+
+            // Update Counter
+            countSpan.innerText = visibleCount;
+            
+            // Show/Hide No Results
+            if (visibleCount === 0) noResults.classList.remove('hidden');
+            else noResults.classList.add('hidden');
+        }
+
+        // Event Listener untuk Tab Buttons
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Visual Update Tab
+                tabs.forEach(t => {
+                    t.classList.remove('active', 'text-primary', 'border-primary');
+                    t.classList.add('text-gray-500', 'border-transparent');
+                });
+                btn.classList.remove('text-gray-500', 'border-transparent');
+                btn.classList.add('active', 'text-primary', 'border-primary');
+
+                // Jalankan Filter Kategori
+                const filterValue = btn.getAttribute('data-filter');
+                filterContent('category', filterValue);
+            });
+        });
+
+        // Event Listener untuk Search (Realtime saat mengetik)
+        searchInput.addEventListener('keyup', (e) => {
+            filterContent('search', e.target.value);
+        });
+
+        // Event Listener tombol Cari
+        function filterArticles() {
+            filterContent('search', searchInput.value);
+        }
+
+        // Helper untuk Tag Cloud
+        function filterByTag(tag) {
+            // Trigger klik pada tab yang sesuai
+            const targetTab = document.querySelector(`.filter-btn[data-filter="${tag}"]`);
+            if(targetTab) targetTab.click();
+            
+            // Scroll sedikit ke area konten
+            document.getElementById('filterTabs').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function resetAll() {
+            document.querySelector('.filter-btn[data-filter="all"]').click();
+        }
+    </script>
+</body>
+</html>

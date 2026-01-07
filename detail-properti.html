@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Properti - Rumah Eksklusif</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        primary: '#1e3a8a',  /* Biru Tema Awal */
+                        secondary: '#f59e0b', /* Kuning Tema Awal */
+                        'btn-green': '#16a34a', /* Hijau Tema Awal */
+                    },
+                    boxShadow: { 'card': '0 10px 30px -5px rgba(0, 0, 0, 0.1)' },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { background-color: #f8fafc; scroll-behavior: smooth; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Styling Tab */
+        .tab-btn.active {
+            background-color: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        /* Transisi Gambar */
+        .img-thumb { transition: all 0.3s ease; }
+        .img-thumb:hover { opacity: 1; }
+        .img-thumb.active-thumb { border: 2px solid #1e3a8a; opacity: 1; }
+
+        /* Animasi Tombol WA */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-700 relative">
+
+    <nav class="fixed top-0 w-full z-40 text-white py-4 bg-primary/95 backdrop-blur shadow-lg transition-all duration-300">
+        <div class="container mx-auto px-6 flex justify-between items-center relative">
+            <div class="flex items-center gap-3 font-bold text-xl md:text-2xl cursor-pointer">
+                <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Logo" class="w-10 h-10 bg-white rounded p-1 shadow-sm object-contain">
+                <span class="leading-none"><a href="">Malang <br><span class="text-secondary text-sm md:text-lg">Property Hub</span></a></span>
+            </div>
+
+            <div class="hidden md:flex gap-8 text-sm font-medium items-center">
+                <a href="index.html" class="hover:text-secondary transition py-2">Beranda</a>
+                <a href="properti.html" class="text-secondary transition py-2">Properti</a>
+                <a href="layanan.html" class="hover:text-secondary transition py-2">Layanan</a>
+                <a href="blog.html" class="hover:text-secondary transition py-2">Artikel & Blog</a>
+                <a href="contact.html" class="hover:text-secondary transition py-2">Kontak</a>
+                <a href="#" class="bg-secondary hover:bg-yellow-600 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition shadow-md">
+                    Hubungi Agen
+                </a>
+            </div>
+            
+            <button id="mobile-btn" onclick="toggleMobileMenu()" class="md:hidden text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-primary border-t border-white/10 shadow-xl transition-all duration-300 ease-in-out">
+            <div class="flex flex-col p-6 gap-4 font-medium">
+                <a href="index.html" class="block hover:text-secondary hover:pl-2 transition-all">Beranda</a>
+                <a href="properti.html" class="block hover:text-secondary hover:pl-2 transition-all">Properti</a>
+                <a href="layanan.html" class="block text-secondary hover:pl-2 transition-all">Layanan</a>
+                <a href="blog.html" class="block hover:text-secondary">Artikel</a>
+                <a href="contact.html" class="block hover:text-secondary hover:pl-2 transition-all">Kontak</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container mx-auto px-6 mt-28 mb-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            
+            <div>
+                <div class="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-2xl overflow-hidden mb-4 shadow-md bg-gray-200">
+                    <img id="mainImage" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1600" class="w-full h-full object-cover hover:scale-105 transition duration-700 cursor-pointer">
+                </div>
+                
+                <div class="grid grid-cols-4 gap-2 md:gap-4">
+                    <img onclick="changeImage(this)" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=400" class="img-thumb active-thumb h-16 md:h-24 w-full object-cover rounded-lg cursor-pointer opacity-100">
+                    <img onclick="changeImage(this)" src="https://images.unsplash.com/photo-1600585154340-be6199f7d009?q=80&w=400" class="img-thumb h-16 md:h-24 w-full object-cover rounded-lg cursor-pointer opacity-60">
+                    <img onclick="changeImage(this)" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=400" class="img-thumb h-16 md:h-24 w-full object-cover rounded-lg cursor-pointer opacity-60">
+                    <div class="relative h-16 md:h-24 w-full cursor-pointer group rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=400" class="h-full w-full object-cover opacity-60 group-hover:opacity-100 transition">
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-xs md:text-sm font-bold">+5 Foto</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-center">
+                <span class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded w-fit mb-3 tracking-wide">
+                    EKSKLUSIF
+                </span>
+
+                <h1 class="text-2xl md:text-4xl font-bold text-gray-800 mb-2 leading-tight">Rumah Eksklusif 2 Lantai Mewah</h1>
+
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-secondary text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-500">4.8 <span class="text-gray-400 font-normal">(Lowokwaru, Malang)</span></span>
+                </div>
+
+                <p class="text-3xl md:text-4xl font-bold text-secondary mb-6">Rp 950.000.000</p>
+
+                <div class="space-y-4 mb-8 text-gray-700 font-medium text-sm md:text-base border-t border-b border-gray-100 py-6">
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-bed w-6 text-center text-primary text-lg"></i> 
+                        <span>4 Kamar Tidur</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-bath w-6 text-center text-primary text-lg"></i> 
+                        <span>3 Kamar Mandi</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-ruler-combined w-6 text-center text-primary text-lg"></i> 
+                        <span>180m² Luas Bangunan</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-bolt w-6 text-center text-primary text-lg"></i> 
+                        <span>2200 Watt Listrik</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-droplet w-6 text-center text-primary text-lg"></i> 
+                        <span>PDAM & Sumur Bor</span>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/62812345678" class="w-full bg-btn-green hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition duration-300 transform active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Pesan Via Whatsapp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-6 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <div class="lg:col-span-8">
+                <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 pb-2 overflow-x-auto">
+                    <button onclick="switchTab('desc')" id="btn-desc" class="tab-btn active px-6 py-2.5 rounded-lg font-semibold border border-transparent hover:bg-gray-100 transition whitespace-nowrap">Deskripsi</button>
+                    <button onclick="switchTab('facilities')" id="btn-facilities" class="tab-btn px-6 py-2.5 rounded-lg font-semibold border border-transparent hover:bg-gray-100 transition whitespace-nowrap">Fasilitas</button>
+                    <button onclick="switchTab('location')" id="btn-location" class="tab-btn px-6 py-2.5 rounded-lg font-semibold border border-transparent hover:bg-gray-100 transition whitespace-nowrap">Lokasi</button>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-card border border-gray-100">
+                    <div id="desc" class="tab-content active text-gray-600 leading-relaxed">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Deskripsi Properti</h3>
+                        <p class="mb-4">Hunian mewah di tengah kota Malang dengan desain modern minimalis. Menggunakan material berkualitas tinggi.</p>
+                        <p>Cocok untuk keluarga besar yang menginginkan kenyamanan dan akses mudah ke berbagai fasilitas umum.</p>
+                        <ul class="mt-6 space-y-3 bg-gray-50 p-5 rounded-xl">
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-primary mr-3"></i> Sertifikat Hak Milik (SHM)</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-primary mr-3"></i> Akses Jalan Lebar</li>
+                            <li class="flex items-center"><i class="fa-solid fa-circle-check text-primary mr-3"></i> Keamanan 24 Jam</li>
+                        </ul>
+                    </div>
+
+                    <div id="facilities" class="tab-content text-gray-600">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Fasilitas Lengkap</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-gray-50 rounded-xl flex items-center gap-3"><i class="fa-solid fa-wifi text-primary text-xl"></i> Internet Fiber Ready</div>
+                            <div class="p-4 bg-gray-50 rounded-xl flex items-center gap-3"><i class="fa-solid fa-bolt text-primary text-xl"></i> Listrik Underground</div>
+                            <div class="p-4 bg-gray-50 rounded-xl flex items-center gap-3"><i class="fa-solid fa-mosque text-primary text-xl"></i> Dekat Masjid</div>
+                            <div class="p-4 bg-gray-50 rounded-xl flex items-center gap-3"><i class="fa-solid fa-car text-primary text-xl"></i> Carport 2 Mobil</div>
+                        </div>
+                    </div>
+
+                    <div id="location" class="tab-content">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Lokasi & Akses</h3>
+                        <div class="h-64 bg-gray-100 rounded-xl overflow-hidden mb-4 shadow-inner">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.448906934789!2d112.6157053!3d-7.9524679!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e78827928b97597%3A0x6295a089f2d19213!2sLowokwaru%2C%20Kec.%20Lowokwaru%2C%20Kota%20Malang%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1689654123456" width="100%" height="100%" style="border:0;" loading="lazy"></iframe>
+                        </div>
+                        <p><i class="fa-solid fa-location-dot text-primary mr-2"></i> 5 Menit dari Pusat Bisnis Suhat</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-4 self-start sticky top-24">
+                <div class="bg-white p-6 rounded-2xl shadow-card border border-gray-100">
+                    <h4 class="text-sm font-bold text-gray-400 uppercase mb-4 tracking-wider">Agen Properti</h4>
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-16 h-16 rounded-full border-2 border-secondary p-0.5 object-cover">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">Budi Santoso</h4>
+                            <p class="text-xs text-primary font-medium bg-blue-50 px-2 py-1 rounded-md inline-block mt-1">Agen Resmi</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <button class="w-full bg-white border-2 border-primary text-primary font-bold py-3 rounded-xl hover:bg-primary hover:text-white transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-phone"></i> Hubungi (+62) 812...
+                        </button>
+                        <a href="#" class="block text-center text-gray-400 text-sm hover:text-primary mt-2">Lihat Listing Lainnya</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="bg-white py-12 mt-8 border-t border-gray-200">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold text-primary mb-6">Properti Serupa</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition group">
+                    <div class="overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef230?w=600" class="h-full w-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-gray-800 group-hover:text-primary transition">Rumah Minimalis Sawojajar</h4>
+                        <p class="text-secondary font-bold mt-1">Rp 850 Jt</p>
+                    </div>
+                </div>
+                <div class="rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition group">
+                    <div class="overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600" class="h-full w-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-gray-800 group-hover:text-primary transition">Rumah Modern Araya</h4>
+                        <p class="text-secondary font-bold mt-1">Rp 1.2 M</p>
+                    </div>
+                </div>
+                 <div class="rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition group">
+                    <div class="overflow-hidden h-48">
+                        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600" class="h-full w-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-gray-800 group-hover:text-primary transition">Villa Puncak Dieng</h4>
+                        <p class="text-secondary font-bold mt-1">Rp 2.5 M</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-primary text-white py-12 mt-10 border-t-4 border-secondary">
+        <div class="container mx-auto px-6 text-center">
+            <div class="mb-4">
+                <span class="font-bold text-xl">Malang Property Hub</span>
+            </div>
+            <p class="text-sm text-gray-300">© 2026 Malang Property Hub. Solusi Hunian Idaman Anda.</p>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 items-end">
+        
+        <button onclick="scrollToTop()" id="scrollTopBtn" class="hidden bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-800 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center border-2 border-white/20">
+            <i class="fa-solid fa-arrow-up text-lg"></i>
+        </button>
+
+        <a href="https://wa.me/62812345678" target="_blank" class="float-anim bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-2xl hover:bg-[#128c7e] transition-all duration-300 flex items-center justify-center relative group">
+            <i class="fa-brands fa-whatsapp text-3xl md:text-4xl"></i>
+            <span class="absolute top-0 right-0 flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            </span>
+            <span class="absolute right-full mr-3 bg-white text-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg shadow-md opacity-0 group-hover:opacity-100 transition whitespace-nowrap hidden md:block">
+                Chat Agen
+            </span>
+        </a>
+    </div>
+
+    <script>
+        // LOGIC GANTI GAMBAR UTAMA
+        function changeImage(el) {
+            document.getElementById('mainImage').src = el.src;
+            document.querySelectorAll('.img-thumb').forEach(img => {
+                img.classList.remove('active-thumb', 'opacity-100');
+                img.classList.add('opacity-60');
+            });
+            el.classList.add('active-thumb', 'opacity-100');
+            el.classList.remove('opacity-60');
+        }
+
+        // LOGIC TABS
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
+        }
+
+        // MOBILE MENU
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // LOGIC SCROLL TO TOP
+        const scrollBtn = document.getElementById("scrollTopBtn");
+        
+        window.onscroll = function() {
+            // Munculkan tombol jika scroll lebih dari 300px
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollBtn.classList.remove("hidden");
+                scrollBtn.classList.add("flex");
+            } else {
+                scrollBtn.classList.add("hidden");
+                scrollBtn.classList.remove("flex");
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
